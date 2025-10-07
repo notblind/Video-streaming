@@ -21,3 +21,9 @@ BaseModel = declarative_base()
 async def get_db() -> AsyncSession:
     async with session_maker() as session:
         yield session
+
+
+async def get_db_atomic() -> AsyncSession:
+    async with session_maker() as session:
+        async with session.begin():
+            yield session
