@@ -1,8 +1,8 @@
 """Files and Clips
 
-Revision ID: 63963e1b32c9
+Revision ID: a2b2878ba44e
 Revises:
-Create Date: 2025-10-08 13:50:53.867079
+Create Date: 2025-10-08 14:15:28.012435
 
 """
 from typing import Sequence, Union
@@ -11,7 +11,7 @@ import sqlalchemy as sa
 from alembic import op
 
 # revision identifiers, used by Alembic.
-revision: str = "63963e1b32c9"
+revision: str = "a2b2878ba44e"
 down_revision: Union[str, Sequence[str], None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -25,6 +25,8 @@ def upgrade() -> None:
         sa.Column("id", sa.Integer(), nullable=False),
         sa.Column("name", sa.String(), nullable=False),
         sa.Column("store_name", sa.String(), nullable=False),
+        sa.Column("created_at", sa.DateTime(), nullable=False),
+        sa.Column("updated_at", sa.DateTime(), nullable=False),
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_table(
@@ -33,6 +35,8 @@ def upgrade() -> None:
         sa.Column("name", sa.String(), nullable=False),
         sa.Column("description", sa.String(), nullable=True),
         sa.Column("clip_file_id", sa.Integer(), nullable=False),
+        sa.Column("created_at", sa.DateTime(), nullable=False),
+        sa.Column("updated_at", sa.DateTime(), nullable=False),
         sa.ForeignKeyConstraint(
             ["clip_file_id"],
             ["base_files.id"],

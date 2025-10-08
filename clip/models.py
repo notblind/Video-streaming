@@ -2,9 +2,10 @@ from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from base import BaseModel
+from base.models import DateModelMixin
 
 
-class ClipModel(BaseModel):
+class ClipModel(BaseModel, DateModelMixin):
     __tablename__ = "clip_clips"
 
     id = Column(Integer, primary_key=True)
