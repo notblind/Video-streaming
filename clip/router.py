@@ -7,14 +7,14 @@ from sqlalchemy.sql import select
 
 from base import get_db, get_db_atomic, settings
 from base.models import FileModel
+from base.utils import generate_store_name, write_file
 from clip.models import ClipModel
 from clip.schemas import ClipSchema
-from clip.utils import generate_store_name, write_file
 
 router = APIRouter(tags=["clips"])
 
 
-@router.get("/clips/{id}")
+@router.get("/clips")
 async def get_clip(clip_id: int, db: AsyncSession = Depends(get_db)) -> ClipSchema:
     result = await db.execute(
         select(ClipModel)
@@ -35,7 +35,6 @@ async def upload_clip(
     db: AsyncSession = Depends(get_db_atomic),
 ) -> ClipSchema:
     store_name = generate_store_name()
-    file_path = settings.clips_dir / store_name
 
     clip_file = FileModel(
         name=data.filename,
@@ -54,11 +53,11 @@ async def upload_clip(
 
     # If there is an error during commit, we will delete broken files
     # that do not have an entry in the 'base_files' table in the cron task.
-    await asyncio.to_thread(write_file, file_path, data.file)
+    await asyncio.to_thread(write_file, store_name, data.file)
     return ClipSchema.model_validate(new_clip)
 
 
-@router.delete("/clips/{id}")
+@router.delete("/clips")
 async def delete_clip(clip_id: int, db: AsyncSession = Depends(get_db_atomic)) -> dict:
     clip = await db.get(ClipModel, clip_id)
     if clip is None:

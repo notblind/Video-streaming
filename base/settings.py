@@ -19,13 +19,12 @@ class Settings(BaseSettings):
     def database_url(self):
         return f"postgresql+asyncpg://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
 
-    # Clip Settings
-    CLIPS_DIR: str
+    # Files Settings
+    FILES_DIR: str
 
     @property
-    def clips_dir(self):
-        # CLIPS_DIR = Path("/Users/db.lee/video_stream")
-        return Path(self.CLIPS_DIR)
+    def files_dir(self):
+        return Path(self.FILES_DIR)
 
 
 settings = Settings()

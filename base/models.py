@@ -15,4 +15,4 @@ class FileModel(BaseModel, DateModelMixin):
 
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
-    store_name = Column(String, nullable=False)
+    store_name = Column(String, nullable=False, unique=True)
