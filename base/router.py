@@ -20,7 +20,7 @@ async def download_file(
     )
     file_obj = result.scalar_one_or_none()
     if file_obj is None:
-        raise HTTPException(status_code=404, detail="Clip not found")
+        raise HTTPException(status_code=404, detail="File not found")
 
     file_path = f"{settings.FILES_DIR}/{store_name}"
     if not os.path.exists(file_path):
