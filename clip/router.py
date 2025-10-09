@@ -8,6 +8,7 @@ from sqlalchemy.sql import select
 from base import get_db, get_db_atomic, settings
 from base.models import FileModel
 from base.utils import generate_store_name, write_file
+from clip.constants import ACCEPTABLE_CONTENT_TYPES, ACCEPTABLE_VIDEO_FORMATS
 from clip.models import ClipModel
 from clip.schemas import ClipSchema
 
@@ -34,11 +35,18 @@ async def upload_clip(
     data: UploadFile,
     db: AsyncSession = Depends(get_db_atomic),
 ) -> ClipSchema:
-    store_name = generate_store_name()
+    content_type = data.content_type
+    if content_type not in ACCEPTABLE_CONTENT_TYPES:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Only videos in the following format can be uploaded: {', '.join(ACCEPTABLE_VIDEO_FORMATS)}",
+        )
 
+    store_name = generate_store_name()
     clip_file = FileModel(
         name=data.filename,
         store_name=store_name,
+        content_type=content_type,
     )
     db.add(clip_file)
     await db.flush()

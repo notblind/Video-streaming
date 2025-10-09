@@ -7,6 +7,7 @@ class FileSchema(BaseModel):
     id: int
     name: str
     store_name: str
+    content_type: str
     created_at: datetime
     updated_at: datetime
 

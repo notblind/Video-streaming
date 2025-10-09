@@ -25,4 +25,8 @@ async def download_file(
     file_path = f"{settings.FILES_DIR}/{store_name}"
     if not os.path.exists(file_path):
         raise HTTPException(status_code=404, detail="File not found")
-    return FileResponse(f"{settings.FILES_DIR}/{store_name}", filename=file_obj.name)
+    return FileResponse(
+        file_path,
+        filename=file_obj.name,
+        media_type=file_obj.content_type,
+    )

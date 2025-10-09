@@ -1,8 +1,8 @@
 """Files and Clips
 
-Revision ID: 46da66aaf4e5
+Revision ID: ae4ccd214818
 Revises:
-Create Date: 2025-10-08 14:52:05.135232
+Create Date: 2025-10-09 16:10:44.546840
 
 """
 from typing import Sequence, Union
@@ -10,7 +10,7 @@ from typing import Sequence, Union
 import sqlalchemy as sa
 from alembic import op
 
-revision: str = "46da66aaf4e5"
+revision: str = "ae4ccd214818"
 down_revision: Union[str, Sequence[str], None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -23,6 +23,7 @@ def upgrade() -> None:
         sa.Column("id", sa.Integer(), nullable=False),
         sa.Column("name", sa.String(), nullable=False),
         sa.Column("store_name", sa.String(), nullable=False),
+        sa.Column("content_type", sa.String(), nullable=False),
         sa.Column("created_at", sa.DateTime(), nullable=False),
         sa.Column("updated_at", sa.DateTime(), nullable=False),
         sa.PrimaryKeyConstraint("id"),
@@ -42,6 +43,7 @@ def upgrade() -> None:
         ),
         sa.PrimaryKeyConstraint("id"),
     )
+    # ### end Alembic commands ###
 
 
 def downgrade() -> None:
