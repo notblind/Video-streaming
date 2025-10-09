@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload
 from sqlalchemy.sql import select
 
-from base import get_db, get_db_atomic, settings
+from base import get_db, get_db_atomic
 from base.models import FileModel
 from base.utils import generate_store_name, write_file
 from clip.constants import ACCEPTABLE_CONTENT_TYPES, ACCEPTABLE_VIDEO_FORMATS
